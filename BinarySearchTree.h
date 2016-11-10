@@ -113,6 +113,17 @@ template<class ItemType>
 BinaryNode<ItemType> *BinarySearchTree<ItemType>::insertInorder(BinaryNode<ItemType> *subTreePtr,
                                                                 BinaryNode<ItemType> *newNodePtr) {
     //TODO
+    if(subTreePtr == NULL)
+        return newNodePtr;
+    else{
+        if(subTreePtr -> getItem() > newNodePtr -> getItem()){
+            subTreePtr -> setLeftChildPtr(insertInorder(subTreePtr -> getLeftChildPtr(), newNodePtr));
+        }
+        else{
+            subTreePtr -> setRightChildPtr(insertInorder(subTreePtr -> getRightChildPtr(), newNodePtr));
+        }
+        return subTreePtr;
+    }
 }  // end insertInorder
 
 template<class ItemType>
@@ -120,6 +131,24 @@ BinaryNode<ItemType> *BinarySearchTree<ItemType>::removeValue(BinaryNode<ItemTyp
                                                               const ItemType target,
                                                               bool &success) {
     //TODO
+    if(subTreePtr == NULL){
+        success = false;
+        return NULL;
+    }
+    if(subTreePtr -> getItem() == target){
+        subTreePtr = removeNode(subTreePtr);
+        success = true;
+        return subTreePtr;
+    }
+    else{
+        if(subTreePtr -> getItem() > target){
+            subTreePtr -> setLeftChildPtr(removeValue(subTreePtr -> getLeftChildPtr(), target, success));
+        }
+        else{
+            subTreePtr -> setRightChildPtr(removeValue(subTreePtr -> getRightChildPtr(), target, success));
+        }
+        return subTreePtr;
+    }
 }  // end removeValue
 
 template<class ItemType>
